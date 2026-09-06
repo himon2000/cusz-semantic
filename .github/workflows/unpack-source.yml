@@ -3,7 +3,7 @@ name: Unpack organized source package
 on:
   push:
     paths:
-      - cusz-semantic-source-2026-09-06.zip
+      - cusz-semantic-latest-files.b64
 
 permissions:
   contents: write
@@ -13,17 +13,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Expand source folders
+      - name: Expand and organize source folders
+        shell: bash
         run: |
-          mkdir -p /tmp/cusz-semantic-source
-          unzip -q cusz-semantic-source-2026-09-06.zip -d /tmp/cusz-semantic-source
-          rsync -a /tmp/cusz-semantic-source/ ./
-          git rm cusz-semantic-source-2026-09-06.zip
+          if [[ ! -f cusz-semantic-latest-files.b64 ]]; then exit 0; fi
+          mkdir -p /tmp/cusz-source frontend backend knowledge-graph
+          unzip -q cusz-semantic-local-2026-09-06.zip -d /tmp/cusz-source
+
+          FRONTEND_MANIFEST=$(find /tmp/cusz-source -type f ( -path '*/explorer/package.json' -o -path '*/frontend/package.json' ) -print -quit)
+          BACKEND_ROUTE=$(find /tmp/cusz-source -type f -path '*/semantica/explorer/routes/graph.py' -print -quit)
+          KG_GRAPH=$(find /tmp/cusz-source -type f ( -path '*/cuhksz_sds_kg/output/sds_knowledge_graph.json' -o -path '*/knowledge-graph/output/sds_knowledge_graph.json' ) -print -quit)
+
+          test -n "$FRONTEND_MANIFEST"
+          test -n "$BACKEND_ROUTE"
+          test -n "$KG_GRAPH"
+
+          FRONTEND_DIR=$(dirname "$FRONTEND_MANIFEST")
+          SEMANTICA_DIR=$(dirname "$(dirname "$(dirname "$BACKEND_ROUTE")")")
+          PACKAGE_ROOT=$(dirname "$SEMANTICA_DIR")
+          KG_DIR=$(dirname "$(dirname "$KG_GRAPH")")
+
+          rsync -a --exclude node_modules "$FRONTEND_DIR/" frontend/
+          rsync -a --exclude __pycache__ "$SEMANTICA_DIR/" backend/semantica/
+          rsync -a --exclude .git --exclude __pycache__ "$KG_DIR/" knowledge-graph/
+
+          for file in pyproject.toml LICENSE MANIFEST.in README.md; do
+            if [[ -f "$PACKAGE_ROOT/$file" ]]; then cp "$PACKAGE_ROOT/$file" backend/; fi
+          done
+          if [[ -d "$PACKAGE_ROOT/integrations" ]]; then rsync -a "$PACKAGE_ROOT/integrations/" backend/integrations/; fi
+          if [[ -d "$PACKAGE_ROOT/tests" ]]; then rsync -a "$PACKAGE_ROOT/tests/" backend/tests/; fi
+
+          base64 --decode cusz-semantic-latest-files.b64 > /tmp/cusz-latest.zip
+          unzip -qo /tmp/cusz-latest.zip -d .
+          git rm cusz-semantic-latest-files.b64 cusz-semantic-local-2026-09-06.zip
       - name: Commit organized source
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md .gitignore frontend backend knowledge-graph scripts docs
+          git add -A
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Organize frontend, backend, and knowledge graph source"
           git push
