@@ -1,0 +1,4 @@
+# Only required when rebuilding the graph artifacts from seed data.
+# The local question-answering website itself uses the Python standard library.
+semantica>=0.6.5
+beautifulsoup4>=4.12

@@ -1,0 +1,26 @@
+{
+  "dataset": "CUHK-Shenzhen School of Data Science Official Website Graph",
+  "entity_count": 469,
+  "entity_types": {
+    "AcademicField": 8,
+    "Person": 105,
+    "Program": 12,
+    "ResearchArea": 342,
+    "School": 1,
+    "University": 1
+  },
+  "rdf_triple_count": 6493,
+  "relationship_count": 539,
+  "relationship_types": {
+    "HAS_ACADEMIC_FIELD": 8,
+    "HAS_SCHOOL": 1,
+    "LEADS": 1,
+    "OFFERS_PROGRAM": 12,
+    "RESEARCHES": 396,
+    "RESEARCH_FOCUS": 16,
+    "WORKS_AT": 105
+  },
+  "retrieved_at": "2026-09-05",
+  "source_count": 17,
+  "version": "0.2.0"
+}

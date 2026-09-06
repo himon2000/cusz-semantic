@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="香港中文大学（深圳）数据科学学院知识图谱智能问答">
+  <title>SDS Knowledge Agent</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="SDS Knowledge Agent 首页">
+        <span class="brand-mark">S</span>
+        <span><strong>SDS Knowledge Agent</strong><small>CUHK-Shenzhen · Local Graph QA</small></span>
+      </a>
+      <span class="local-badge"><i></i> 本机运行</span>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">SOURCE-GROUNDED ANSWERS</p>
+        <h1>从关系中寻找答案，<br><em>每一条都有出处。</em></h1>
+        <p class="intro">面向港中大（深圳）数据科学学院的本地知识图谱助手。无需云端模型，通过实体匹配和图遍历回答培养项目、师资与研究方向问题。</p>
+      </div>
+      <div class="stats" aria-label="知识图谱统计">
+        <div><strong id="entity-count">—</strong><span>实体</span></div>
+        <div><strong id="relationship-count">—</strong><span>关系</span></div>
+        <div><strong id="source-count">—</strong><span>官网来源</span></div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <aside class="examples">
+        <p class="section-label">你可以这样问</p>
+        <button class="prompt" data-question="数据科学学院院长是谁？"><span>01</span>数据科学学院院长是谁？</button>
+        <button class="prompt" data-question="有哪些硕士项目？"><span>02</span>有哪些硕士项目？</button>
+        <button class="prompt" data-question="谁研究机器学习？"><span>03</span>谁研究机器学习？</button>
+        <button class="prompt" data-question="查宏远研究什么？"><span>04</span>查宏远研究什么？</button>
+        <div class="legend">
+          <p class="section-label">回答机制</p>
+          <div><b class="dot entity"></b> 实体识别</div>
+          <div><b class="dot relation"></b> 关系遍历</div>
+          <div><b class="dot source"></b> 来源追踪</div>
+        </div>
+      </aside>
+
+      <section class="chat" aria-label="知识图谱问答">
+        <div id="messages" class="messages" aria-live="polite">
+          <article class="message assistant">
+            <div class="avatar">KG</div>
+            <div class="bubble">
+              <p>你好，我已经连接到数据科学学院知识图谱。你可以询问学院项目、教师职务和研究方向。</p>
+              <small>本地规则智能体 · 不向外部服务发送数据</small>
+            </div>
+          </article>
+        </div>
+        <form id="ask-form" class="composer">
+          <label class="sr-only" for="question">输入问题</label>
+          <textarea id="question" rows="1" maxlength="500" placeholder="向知识图谱提问…"></textarea>
+          <button id="send" type="submit">查询图谱 <span>↗</span></button>
+        </form>
+      </section>
+    </section>
+
+    <footer><span>DATA SNAPSHOT · 2026-08-29</span><span>Deterministic graph reasoning</span></footer>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>
+

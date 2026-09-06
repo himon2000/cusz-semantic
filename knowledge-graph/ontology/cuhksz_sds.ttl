@@ -1,0 +1,39 @@
+@prefix sds: <https://kg.cuhk.edu.cn/sds/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sds: a owl:Ontology ;
+  rdfs:label "港中大（深圳）数据科学学院知识图谱本体"@zh .
+
+sds:University a owl:Class ; rdfs:label "大学"@zh .
+sds:School a owl:Class ; rdfs:label "学院"@zh .
+sds:Program a owl:Class ; rdfs:label "培养项目"@zh .
+sds:Person a owl:Class ; rdfs:label "人员"@zh .
+sds:ResearchArea a owl:Class ; rdfs:label "研究领域"@zh .
+sds:AcademicField a owl:Class ; rdfs:label "学术领域"@zh .
+
+sds:HAS_SCHOOL a owl:ObjectProperty ;
+  rdfs:domain sds:University ; rdfs:range sds:School ; rdfs:label "设有学院"@zh .
+sds:OFFERS_PROGRAM a owl:ObjectProperty ;
+  rdfs:domain sds:School ; rdfs:range sds:Program ; rdfs:label "开设项目"@zh .
+sds:WORKS_AT a owl:ObjectProperty ;
+  rdfs:domain sds:Person ; rdfs:range sds:School ; rdfs:label "任职于"@zh .
+sds:LEADS a owl:ObjectProperty ;
+  rdfs:domain sds:Person ; rdfs:range sds:School ; rdfs:label "领导"@zh .
+sds:RESEARCHES a owl:ObjectProperty ;
+  rdfs:domain sds:Person ; rdfs:range sds:ResearchArea ; rdfs:label "研究"@zh .
+sds:HAS_ACADEMIC_FIELD a owl:ObjectProperty ;
+  rdfs:domain sds:School ; rdfs:range sds:AcademicField ; rdfs:label "设有学科或应用方向"@zh .
+sds:RESEARCH_FOCUS a owl:ObjectProperty ;
+  rdfs:domain sds:School ; rdfs:range sds:ResearchArea ; rdfs:label "重点研究"@zh .
+
+sds:name a owl:DatatypeProperty ; rdfs:range xsd:string .
+sds:title a owl:DatatypeProperty ; rdfs:range xsd:string .
+sds:email a owl:DatatypeProperty ; rdfs:range xsd:string .
+sds:office a owl:DatatypeProperty ; rdfs:range xsd:string .
+sds:programmeLevel a owl:DatatypeProperty ; rdfs:range xsd:string .
+sds:sourceUrl a owl:DatatypeProperty ; rdfs:range xsd:anyURI .
+sds:retrievedAt a owl:DatatypeProperty ; rdfs:range xsd:date .
+sds:confidence a owl:DatatypeProperty ; rdfs:range xsd:decimal .

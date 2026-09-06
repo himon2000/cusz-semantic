@@ -1,0 +1,107 @@
+{
+  "retrieved_at": "2026-09-05",
+  "sources": [
+    {
+      "id": "src_university_home",
+      "publisher": "香港中文大学（深圳）",
+      "title": "香港中文大学（深圳）官网",
+      "url": "https://www.cuhk.edu.cn/zh-hans"
+    },
+    {
+      "id": "src_sds_home",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "香港中文大学（深圳）数据科学学院首页",
+      "url": "https://sds.cuhk.edu.cn/"
+    },
+    {
+      "id": "src_sds_programs",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院项目简介",
+      "url": "https://sds.cuhk.edu.cn/node/196"
+    },
+    {
+      "id": "src_sds_directions",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院学科方向",
+      "url": "https://sds.cuhk.edu.cn/page/525"
+    },
+    {
+      "id": "src_sds_features",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学与大数据技术专业优势与特色",
+      "url": "https://sds.cuhk.edu.cn/data/features"
+    },
+    {
+      "id": "src_sds_dean",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院院长致辞",
+      "url": "https://sds.cuhk.edu.cn/node/173"
+    },
+    {
+      "id": "src_sds_teachers_page_0",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 1 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=0"
+    },
+    {
+      "id": "src_sds_teachers_page_1",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 2 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=1"
+    },
+    {
+      "id": "src_sds_teachers_page_2",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 3 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=2"
+    },
+    {
+      "id": "src_sds_teachers_page_3",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 4 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=3"
+    },
+    {
+      "id": "src_sds_teachers_page_4",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 5 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=4"
+    },
+    {
+      "id": "src_sds_teachers_page_5",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 6 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=5"
+    },
+    {
+      "id": "src_sds_teachers_page_6",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 7 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=6"
+    },
+    {
+      "id": "src_sds_teachers_page_7",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 8 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=7"
+    },
+    {
+      "id": "src_sds_teachers_page_8",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 9 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=8"
+    },
+    {
+      "id": "src_sds_teachers_page_9",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 10 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=9"
+    },
+    {
+      "id": "src_sds_teachers_page_10",
+      "publisher": "香港中文大学（深圳）数据科学学院",
+      "title": "数据科学学院教师目录（第 11 页）",
+      "url": "https://sds.cuhk.edu.cn/teacher-search?page=10"
+    }
+  ]
+}
