@@ -1,0 +1,29 @@
+name: Unpack organized source package
+
+on:
+  push:
+    paths:
+      - cusz-semantic-source-2026-09-06.zip
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Expand source folders
+        run: |
+          mkdir -p /tmp/cusz-semantic-source
+          unzip -q cusz-semantic-source-2026-09-06.zip -d /tmp/cusz-semantic-source
+          rsync -a /tmp/cusz-semantic-source/ ./
+          git rm cusz-semantic-source-2026-09-06.zip
+      - name: Commit organized source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md .gitignore frontend backend knowledge-graph scripts docs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Organize frontend, backend, and knowledge graph source"
+          git push
