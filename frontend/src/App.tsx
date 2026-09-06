@@ -62,6 +62,14 @@ type LandingAction = {
   onClick: () => void;
 };
 
+type WorkspaceUseCase = {
+  title: string;
+  description: string;
+  action?: string;
+  active?: boolean;
+  onClick?: () => void;
+};
+
 type GraphStatsPayload = {
   node_count?: number;
   edge_count?: number;
@@ -697,6 +705,91 @@ const shellStyles = `
     flex: 1;
     min-height: 0;
     overflow: hidden;
+  }
+
+  .workspace-use-cases {
+    flex-shrink: 0;
+    padding: 10px 22px 12px;
+    border-bottom: 1px solid rgba(127, 208, 255, 0.1);
+    background: rgba(5, 13, 25, 0.78);
+  }
+
+  .workspace-use-cases-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .workspace-use-cases-title {
+    color: var(--text-main);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .workspace-use-cases-hint {
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+
+  .workspace-use-cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .workspace-use-case {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 11px;
+    border-radius: 11px;
+    border: 1px solid rgba(127, 208, 255, 0.12);
+    background: rgba(74, 163, 255, 0.035);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: 150ms ease;
+  }
+
+  .workspace-use-case[data-interactive='true']:hover,
+  .workspace-use-case[data-active='true'] {
+    border-color: rgba(127, 208, 255, 0.3);
+    background: rgba(74, 163, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .workspace-use-case[data-interactive='false'] {
+    cursor: default;
+  }
+
+  .workspace-use-case-title {
+    color: var(--text-main);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.3;
+  }
+
+  .workspace-use-case-description {
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 10.5px;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .workspace-use-case-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-strong);
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
   }
 
   /* ── Welcome page ─────────────────────────────────────── */
@@ -1408,6 +1501,16 @@ const shellStyles = `
       justify-content: flex-start;
     }
 
+    .workspace-use-cases-grid {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .workspace-use-case {
+      min-width: 250px;
+    }
+
     .landing-hero {
       grid-template-columns: 1fr;
       min-height: auto;
@@ -1481,12 +1584,49 @@ const shellStyles = `
   }
 `;
 
+function WorkspaceUseCaseCard({ useCase }: { useCase: WorkspaceUseCase }) {
+  const content = (
+    <>
+      <span style={{ minWidth: 0 }}>
+        <span className="workspace-use-case-title">{useCase.title}</span>
+        <span className="workspace-use-case-description">{useCase.description}</span>
+      </span>
+      {useCase.action ? (
+        <span className="workspace-use-case-action">
+          {useCase.action}<ArrowRight size={11} aria-hidden />
+        </span>
+      ) : null}
+    </>
+  );
+
+  if (!useCase.onClick) {
+    return (
+      <article className="workspace-use-case" data-interactive="false">
+        {content}
+      </article>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className="workspace-use-case"
+      data-active={useCase.active}
+      data-interactive="true"
+      onClick={useCase.onClick}
+    >
+      {content}
+    </button>
+  );
+}
+
 function WorkspaceShell({
   title,
   subtitle,
   tabs,
   compact = false,
   kicker = 'Workspace',
+  useCases,
   children,
 }: {
   title: string;
@@ -1494,6 +1634,7 @@ function WorkspaceShell({
   tabs?: ReactNode;
   compact?: boolean;
   kicker?: string;
+  useCases?: WorkspaceUseCase[];
   children: ReactNode;
 }) {
   return (
@@ -1508,6 +1649,19 @@ function WorkspaceShell({
         </div>
         {tabs ? <div className="workspace-tabs">{tabs}</div> : null}
       </header>
+      {useCases?.length ? (
+        <section className="workspace-use-cases" aria-label="Use cases">
+          <div className="workspace-use-cases-heading">
+            <span className="workspace-use-cases-title">Use cases</span>
+            <span className="workspace-use-cases-hint">Try a realistic task for this workspace</span>
+          </div>
+          <div className="workspace-use-cases-grid">
+            {useCases.map((useCase) => (
+              <WorkspaceUseCaseCard key={useCase.title} useCase={useCase} />
+            ))}
+          </div>
+        </section>
+      ) : null}
       <div className="workspace-body">{children}</div>
     </section>
   );
@@ -1882,15 +2036,37 @@ export default function App() {
       return (
         <WorkspaceShell
           title="Analyze"
-          subtitle="Query the active graph and test inference rules."
-          kicker={analyzeView === 'reasoning' ? 'Reasoning Engine' : 'SPARQL Query'}
+          subtitle="Find graph relationships and let the system derive new conclusions."
+          kicker={analyzeView === 'reasoning' ? 'Smart Reasoning' : 'Graph Search'}
+          useCases={[
+            {
+              title: 'Find faculty by research topic',
+              description: 'List faculty connected to machine learning and inspect the supporting relationships.',
+              action: 'Open query',
+              active: analyzeView === 'sparql',
+              onClick: () => setAnalyzeView('sparql'),
+            },
+            {
+              title: 'Infer a faculty–field link',
+              description: 'Use employment and research facts to infer a school research relationship.',
+              action: 'Open reasoning',
+              active: analyzeView === 'reasoning',
+              onClick: () => setAnalyzeView('reasoning'),
+            },
+            {
+              title: 'Check programme coverage',
+              description: 'Query which programmes connect to data science, AI, and statistics fields.',
+              action: 'Open query',
+              onClick: () => setAnalyzeView('sparql'),
+            },
+          ]}
           tabs={
             <>
               <button className="workspace-tab" data-active={analyzeView === 'reasoning'} onClick={() => setAnalyzeView('reasoning')}>
-                Reasoning Playground
+                Smart Reasoning
               </button>
               <button className="workspace-tab" data-active={analyzeView === 'sparql'} onClick={() => setAnalyzeView('sparql')}>
-                SPARQL Querying
+                Graph Search
               </button>
             </>
           }
@@ -1910,6 +2086,20 @@ export default function App() {
           title="Decisions"
           subtitle="Inspect decision chains, causal context, and precedent matches."
           kicker="Decision Intelligence"
+          useCases={[
+            {
+              title: 'Review a programme change',
+              description: 'Trace the evidence, people, and expected outcome behind adding or revising a programme.',
+            },
+            {
+              title: 'Explain a research priority',
+              description: 'Record why the school selected a research focus and which official pages support it.',
+            },
+            {
+              title: 'Compare a precedent',
+              description: 'Compare a proposed change with earlier decisions before approval.',
+            },
+          ]}
         >
           <ErrorBoundary key="decisions">
             <Suspense fallback={<WorkspaceFallback />}>
@@ -1926,6 +2116,29 @@ export default function App() {
           title="Enrich"
           subtitle="Import, export, reconcile, and audit graph entities."
           kicker="Knowledge Audit"
+          useCases={[
+            {
+              title: 'Import a new website snapshot',
+              description: 'Add newly collected official-site entities and relationships to the graph.',
+              action: 'Open import',
+              active: enrichView === 'import',
+              onClick: () => setEnrichView('import'),
+            },
+            {
+              title: 'Merge duplicate faculty profiles',
+              description: 'Compare similar names and profiles before merging them into one person.',
+              action: 'Resolve entities',
+              active: enrichView === 'resolve',
+              onClick: () => setEnrichView('resolve'),
+            },
+            {
+              title: 'Review every data change',
+              description: 'See imports, merges, inferred relationships, and exports in time order.',
+              action: 'Open registry',
+              active: enrichView === 'registry',
+              onClick: () => setEnrichView('registry'),
+            },
+          ]}
           tabs={
             <>
               <button className="workspace-tab" data-active={enrichView === 'import'} onClick={() => setEnrichView('import')}>
@@ -2002,6 +2215,29 @@ export default function App() {
         title="Manage"
         subtitle="Review provenance, lineage, ontology, and governance context."
         kicker="Graph Governance"
+        useCases={[
+          {
+            title: 'Verify official-site sources',
+            description: 'Trace a graph fact back to the official page and processing step that created it.',
+            action: 'Open lineage',
+            active: manageView === 'lineage',
+            onClick: () => setManageView('lineage'),
+          },
+          {
+            title: 'Find the most connected entities',
+            description: 'Review graph size, entity types, relationship types, and central people or topics.',
+            action: 'Open overview',
+            active: manageView === 'kg-overview',
+            onClick: () => setManageView('kg-overview'),
+          },
+          {
+            title: 'Check ontology classifications',
+            description: 'Confirm how faculty, programmes, fields, and research topics are defined and grouped.',
+            action: 'Open ontology',
+            active: manageView === 'ontology',
+            onClick: () => setManageView('ontology'),
+          },
+        ]}
         tabs={
           <>
             <button className="workspace-tab" data-active={manageView === 'lineage'} onClick={() => setManageView('lineage')}>
